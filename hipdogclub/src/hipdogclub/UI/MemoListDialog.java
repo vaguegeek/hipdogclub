@@ -15,7 +15,7 @@ public class MemoListDialog extends JDialog {
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
-        // 감상평 리스트 패널
+        // 감상평 리스트 패널 (스크롤 적용)
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
         listPanel.setBackground(Color.WHITE);
@@ -41,8 +41,10 @@ public class MemoListDialog extends JDialog {
             for (Memo memo : memos) {
                 JPanel memoPanel = new JPanel(new BorderLayout());
                 memoPanel.setBackground(Color.WHITE);
+
                 JLabel memoTitle = new JLabel("• " + memo.getTitle());
                 memoTitle.setFont(new Font("SansSerif", Font.BOLD, 14));
+
                 JTextArea memoContent = new JTextArea(memo.getContent());
                 memoContent.setLineWrap(true);
                 memoContent.setWrapStyleWord(true);
@@ -50,12 +52,25 @@ public class MemoListDialog extends JDialog {
                 memoContent.setFont(new Font("SansSerif", Font.PLAIN, 13));
                 memoContent.setBackground(new Color(250,250,250));
                 memoContent.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
+
+                JScrollPane memoScroll = new JScrollPane(memoContent);
+                memoScroll.setPreferredSize(new Dimension(350, 80));
+                memoScroll.setBorder(null);
+
                 memoPanel.add(memoTitle, BorderLayout.NORTH);
-                memoPanel.add(memoContent, BorderLayout.CENTER);
+                memoPanel.add(memoScroll, BorderLayout.CENTER);
                 memoPanel.setBorder(BorderFactory.createEmptyBorder(0,0,8,0));
                 listPanel.add(memoPanel);
             }
         }
+
+        // 스크롤 적용
+        JScrollPane listScrollPane = new JScrollPane(listPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        listScrollPane.setBorder(null);
+        listScrollPane.getVerticalScrollBar().setUnitIncrement(16); // 스크롤 속도 개선
+        listScrollPane.setPreferredSize(new Dimension(380, 250));
 
         // 작성하기 버튼
         JButton writeBtn = new JButton("작성하기");
@@ -69,11 +84,10 @@ public class MemoListDialog extends JDialog {
         btnPanel.setBackground(Color.WHITE);
         btnPanel.add(writeBtn);
 
-        add(listPanel, BorderLayout.CENTER);
+        add(listScrollPane, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
 
         // 작성하기 버튼 클릭 시 입력창 다이얼로그 띄움
-        // MemoListDialog.java
         writeBtn.addActionListener(e -> {
             MemoDialog memoDialog = new MemoDialog(this, user, book, () -> {
                 if (onMemoSaved != null) onMemoSaved.run();

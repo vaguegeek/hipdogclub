@@ -87,7 +87,7 @@ public class DashboardView {
         activityPanel.setBorder(BorderFactory.createEmptyBorder(32, 60, 32, 60));
 
         // 1. 환영 메시지
-        JLabel welcome = new JLabel(user.getUserId() + "님 환영합니다!");
+        JLabel welcome = new JLabel("주예나님 환영합니다!");
         welcome.setFont(new Font("SansSerif", Font.BOLD, 22));
         welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
         activityPanel.add(welcome);

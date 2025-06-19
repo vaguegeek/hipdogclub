@@ -7,8 +7,6 @@ import java.util.*;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String userId;
-    private String password; // 비밀번호 추가
     private LocalDate joinDate;
     private int mileage;
 
@@ -17,10 +15,8 @@ public class User implements Serializable {
     private List<Memo> memos = new ArrayList<>();
     private Set<LocalDate> attendanceLog = new HashSet<>();
 
-    // 생성자 (회원가입 시 아이디, 비밀번호 필요)
-    public User(String userId, String password) {
-        this.userId = userId;
-        this.password = password;
+    // 생성자
+    public User(String userId) {
         this.joinDate = LocalDate.now();
         this.mileage = 0;
     }
@@ -55,14 +51,6 @@ public class User implements Serializable {
     }
 
     // Getter
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public LocalDate getJoinDate() {
         return joinDate;
     }
@@ -89,10 +77,5 @@ public class User implements Serializable {
 
     public void removeReadingRecord(ReadingRecord record) {
     readingRecords.remove(record);
-    }
-
-    // Setter (필요시)
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
